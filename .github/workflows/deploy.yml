@@ -1,0 +1,54 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    uses: ./.github/workflows/tests.yml
+
+  deploy:
+    needs: tests
+    runs-on: ubuntu-latest
+    environment: production
+
+    env:
+      SCW_REGION: ${{ vars.SCW_REGION }}
+      SCW_CONTAINER_ID: ${{ vars.SCW_CONTAINER_ID }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Push image
+        uses: ./.github/actions/push-image
+        with:
+          region: ${{ vars.SCW_REGION }}
+          namespace: ${{ vars.SCW_REGISTRY_NAMESPACE }}
+          secret-key: ${{ secrets.SCW_SECRET_KEY }}
+
+      - name: Set up Scaleway CLI
+        uses: scaleway/action-scw@2e34a1eb35cf3cac627f24643a101fea269cbd83 # v0.0.3
+        with:
+          access-key: ${{ secrets.SCW_ACCESS_KEY }}
+          secret-key: ${{ secrets.SCW_SECRET_KEY }}
+          default-project-id: ${{ vars.SCW_PROJECT_ID }}
+          export-config: true
+
+      - name: Redeploy Scaleway Serverless Container
+        run: |
+          scw container container redeploy "$SCW_CONTAINER_ID" \
+            region="$SCW_REGION" \
+            --wait
