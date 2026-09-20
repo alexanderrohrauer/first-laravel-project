@@ -48,5 +48,5 @@ jobs:
       - name: Redeploy Scaleway Serverless Container
         run: |
           scw container container redeploy "$SCW_CONTAINER_ID" \
-            region="SCW_DEFAULT_REGION" \
+            region="$SCW_DEFAULT_REGION" \
             --wait
