@@ -20,7 +20,8 @@ jobs:
     environment: production
 
     env:
-      SCW_REGION: ${{ vars.SCW_REGION }}
+      SCW_DEFAULT_ORGANIZATION_ID: ${{ vars.SCW_ORGANIZATION_ID }}
+      SCW_DEFAULT_REGION: ${{ vars.SCW_REGION }}
       SCW_CONTAINER_ID: ${{ vars.SCW_CONTAINER_ID }}
 
     steps:
