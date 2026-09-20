@@ -15,6 +15,8 @@
         "laravel/sail": "^1.67",
         "laravel/tinker": "^3.0",
         "laravel/wayfinder": "^0.1.14",
+        "league/flysystem-aws-s3-v3": "^3.0",
+        "league/flysystem-read-only": "^3.0",
         "spatie/laravel-medialibrary": "^11.23",
         "spatie/laravel-permission": "^8.3",
         "spatie/laravel-query-builder": "^7.3"

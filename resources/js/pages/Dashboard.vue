@@ -2,6 +2,8 @@
 import { Head } from '@inertiajs/vue3';
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { dashboard } from '@/routes';
+import FileUpload from "@/components/FileUpload.vue";
+import {Card} from "@/components/ui/card";
 
 defineOptions({
     layout: {
@@ -18,9 +20,14 @@ defineOptions({
 <template>
     <Head title="Dashboard" />
 
+
+
     <div
         class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
     >
+        <Card>
+            <FileUpload />
+        </Card>
         <div class="grid auto-rows-min gap-4 md:grid-cols-3">
             <div
                 class="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border"
